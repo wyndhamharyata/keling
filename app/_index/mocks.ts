@@ -1,0 +1,60 @@
+import { EventItem } from './types';
+
+export const eventList: EventItem[] = [
+  {
+    id: '019532a1-0b3c-7d1e-8f4a-1a2b3c4d5e6f',
+    title: 'Team standup',
+    description: 'Daily sync with the engineering team',
+    priority: 'medium',
+    labels: ['work', 'meeting'],
+    schedule: '0 9 * * 1-5',
+  },
+  {
+    id: '019532a1-1c4d-7e2f-9a5b-2b3c4d5e6f7a',
+    title: 'Deploy to production',
+    description: 'Release v2.1.0 to production environment',
+    priority: 'high',
+    labels: ['devops', 'release'],
+    schedule: '0 14 * * 5',
+  },
+  {
+    id: '019532a1-2d5e-7f3a-ab6c-3c4d5e6f7a8b',
+    title: 'Water plants',
+    description: 'Water the office plants on the 3rd floor',
+    priority: 'low',
+    labels: ['personal', 'office'],
+    schedule: '0 8 * * 1,4',
+  },
+  {
+    id: '019532a1-3e6f-7a4b-bc7d-4d5e6f7a8b9c',
+    title: 'Security audit review',
+    description: 'Review findings from the quarterly security audit',
+    priority: 'high',
+    labels: ['security', 'compliance'],
+    schedule: '0 10 1 */3 *',
+  },
+  {
+    id: '019532a1-4f7a-7b5c-cd8e-5e6f7a8b9c0d',
+    title: 'Clean up stale branches',
+    description: 'Delete merged and stale git branches',
+    priority: 'low',
+    labels: ['maintenance', 'git'],
+    schedule: '0 17 * * 5',
+  },
+  {
+    id: '019532a1-5a8b-7c6d-de9f-6f7a8b9c0d1e',
+    title: 'Journal entry',
+    description: 'Write daily journal before bed',
+    priority: 'low',
+    labels: ['personal', 'habit'],
+    schedule: '0 22 * * *',
+  },
+  {
+    id: '019532a1-6b9c-7d7e-ef0a-7a8b9c0d1e2f',
+    title: 'Morning run',
+    description: '5k run at the park',
+    priority: 'medium',
+    labels: ['personal', 'fitness'],
+    schedule: '0 7 * * 0,6',
+  },
+];
