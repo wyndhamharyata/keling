@@ -1,4 +1,4 @@
-import { EventItem } from './types';
+import { EventItem } from '@/schemas/event';
 
 export const eventList: EventItem[] = [
   {

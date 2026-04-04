@@ -1,20 +1,23 @@
-import { ScrollView, StyleSheet, useColorScheme } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, useColorScheme } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
+import { useRouter } from 'expo-router';
 import { CircleCheckbox } from '@/components/ui/circle-checkbox';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { eventList } from './_index/mocks';
-import { EventItem, EventStatus } from './_index/types';
 import { formatSchedule } from './_index/scheduleParser';
 import { Colors } from '@/constants/theme';
 import { useCallback, useMemo, useState } from 'react';
+import { LiquidGlassView } from '@callstack/liquid-glass';
+import { EventItem, EventStatus } from '@/schemas/event';
 
-const statusOrder: Record<EventStatus, number> = { todo: 0, snoozed: 1, done: 2 };
+const statusOrder: Record<EventStatus, number> = { todo: 0, snoozed: 1, done: 2, skipped: 3 };
 
 export default function HomeScreen() {
   const theme = useColorScheme() ?? 'light';
+  const router = useRouter();
   const [items, setItems] = useState(eventList);
 
   const sortedItems = useMemo(
@@ -25,9 +28,7 @@ export default function HomeScreen() {
   const onItemCheckboxClicked = useCallback((id: string) => {
     setItems((prev) =>
       prev.map((item) =>
-        item.id === id
-          ? { ...item, status: item.status === 'done' ? 'todo' : 'done' }
-          : item,
+        item.id === id ? { ...item, status: item.status === 'done' ? 'todo' : 'done' } : item,
       ),
     );
   }, []);
@@ -39,13 +40,28 @@ export default function HomeScreen() {
           {sortedItems.map((item, index) => (
             <Animated.View key={item.id} layout={LinearTransition}>
               {index > 0 && (
-                <ThemedView style={[styles.separator, { backgroundColor: Colors[theme].base500 }]} />
+                <ThemedView
+                  style={[styles.separator, { backgroundColor: Colors[theme].base500 }]}
+                />
               )}
-              <EventItemView item={item} onItemCheckboxClicked={() => onItemCheckboxClicked(item.id)} />
+              <EventItemView
+                item={item}
+                onItemCheckboxClicked={() => onItemCheckboxClicked(item.id)}
+              />
             </Animated.View>
           ))}
         </ScrollView>
       </SafeAreaView>
+      <Pressable style={styles.fabContainer} onPress={() => router.push('/event')}>
+        <LiquidGlassView
+          interactive
+          style={styles.fab}
+          effect={'regular'}
+          tintColor={Colors[theme].primary}
+        >
+          <Text style={styles.fabText}>+</Text>
+        </LiquidGlassView>
+      </Pressable>
     </ThemedView>
   );
 }
@@ -106,5 +122,23 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: StyleSheet.hairlineWidth,
+  },
+  fabContainer: {
+    position: 'absolute',
+    bottom: 40,
+    right: 24,
+  },
+  fab: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fabText: {
+    color: '#fff',
+    fontSize: 28,
+    fontWeight: '300',
+    lineHeight: 30,
   },
 });
