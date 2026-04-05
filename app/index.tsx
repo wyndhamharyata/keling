@@ -20,16 +20,11 @@ export default function HomeScreen() {
   const router = useRouter();
   const [items, setItems] = useState(eventList);
 
-  const sortedItems = useMemo(
-    () => [...items].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]),
-    [items],
-  );
+  const sortedItems = useMemo(() => [...items].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]), [items]);
 
   const onItemCheckboxClicked = useCallback((id: string) => {
     setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, status: item.status === 'done' ? 'todo' : 'done' } : item,
-      ),
+      prev.map((item) => (item.id === id ? { ...item, status: item.status === 'done' ? 'todo' : 'done' } : item)),
     );
   }, []);
 
@@ -39,26 +34,14 @@ export default function HomeScreen() {
         <ScrollView>
           {sortedItems.map((item, index) => (
             <Animated.View key={item.id} layout={LinearTransition}>
-              {index > 0 && (
-                <ThemedView
-                  style={[styles.separator, { backgroundColor: Colors[theme].base500 }]}
-                />
-              )}
-              <EventItemView
-                item={item}
-                onItemCheckboxClicked={() => onItemCheckboxClicked(item.id)}
-              />
+              {index > 0 && <ThemedView style={[styles.separator, { backgroundColor: Colors[theme].base500 }]} />}
+              <EventItemView item={item} onItemCheckboxClicked={() => onItemCheckboxClicked(item.id)} />
             </Animated.View>
           ))}
         </ScrollView>
       </SafeAreaView>
       <Pressable style={styles.fabContainer} onPress={() => router.push('/event')}>
-        <LiquidGlassView
-          interactive
-          style={styles.fab}
-          effect={'regular'}
-          tintColor={Colors[theme].primary}
-        >
+        <LiquidGlassView interactive style={styles.fab} effect={'regular'} tintColor={Colors[theme].primary}>
           <Text style={styles.fabText}>+</Text>
         </LiquidGlassView>
       </Pressable>
@@ -81,14 +64,10 @@ export function EventItemView({ item, onItemCheckboxClicked }: EventItemViewProp
         color={Colors[theme].primary}
       />
       <ThemedView style={styles.item_innerTextView}>
-        <ThemedText style={{ fontSize: 18, color: Colors[theme].baseContent }}>
-          {item.title}
-        </ThemedText>
+        <ThemedText style={{ fontSize: 18, color: Colors[theme].baseContent }}>{item.title}</ThemedText>
         <ThemedView style={styles.item_secondLine_View}>
           {item.priority === 'high' && (
-            <ThemedText style={{ fontSize: 13, color: Colors[theme].error }}>
-              ★ High Priority
-            </ThemedText>
+            <ThemedText style={{ fontSize: 13, color: Colors[theme].error }}>★ High Priority</ThemedText>
           )}
           <ThemedText style={{ fontSize: 13, color: Colors[theme].secondary }}>
             ⧗ {formatSchedule(item.schedule)}

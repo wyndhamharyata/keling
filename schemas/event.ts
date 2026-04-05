@@ -11,10 +11,10 @@ export const EventSchema = v.object({
     v.maxLength(100, 'Title must be less than 100 characters long'),
   ),
   description: v.optional(v.string(), ''),
-  priority: EventPrioritySchema,
+  priority: v.optional(EventPrioritySchema, 'low'),
   labels: v.array(v.string()),
   schedule: v.pipe(v.string(), v.minLength(1, 'Schedule is required')),
-  status: EventStatusSchema,
+  status: v.optional(EventStatusSchema, 'todo'),
 });
 
 export type EventStatus = v.InferOutput<typeof EventStatusSchema>;
@@ -26,8 +26,8 @@ export const EMPTY_EVENT_ITEM: EventItem = {
   id: '',
   title: '',
   description: '',
-  priority: 'medium',
+  priority: 'low',
   labels: [],
-  schedule: '',
+  schedule: '30 9 * * *',
   status: 'todo',
 };
