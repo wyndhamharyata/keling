@@ -24,7 +24,7 @@ export default function RootLayout() {
         </View>
       }
     >
-      <SQLiteProvider databaseName="keling.db" onInit={migrateDatabase} useSuspense>
+      <SQLiteProvider databaseName="keling.db" onInit={migrateDatabase} useSuspense options={{ enableChangeListener: true }}>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }} />

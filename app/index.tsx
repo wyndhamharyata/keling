@@ -12,21 +12,28 @@ import { Colors } from '@/constants/theme';
 import { useCallback, useMemo, useState } from 'react';
 import { LiquidGlassView } from '@callstack/liquid-glass';
 import { EventItem, EventStatus } from '@/schemas/event';
+import { useSQLiteContext } from 'expo-sqlite';
+import { useDbListener } from '@/hooks/use-db-listener';
 
 const statusOrder: Record<EventStatus, number> = { todo: 0, snoozed: 1, done: 2, skipped: 3 };
 
 export default function HomeScreen() {
   const theme = useColorScheme() ?? 'light';
+  const db = useSQLiteContext();
   const router = useRouter();
-  const [items, setItems] = useState(eventList);
+
+  const [items, setItems] = useState<EventItem[]>([]);
+  useDbListener('events', () => setItems(db.getAllSync<EventItem>('SELECT * FROM events')));
 
   const sortedItems = useMemo(() => [...items].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]), [items]);
 
-  const onItemCheckboxClicked = useCallback((id: string) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, status: item.status === 'done' ? 'todo' : 'done' } : item)),
-    );
-  }, []);
+  const onItemCheckboxClicked = useCallback(
+    (id: string) => {
+      const item = items.find((e) => e.id === id);
+      db.runSync(`UPDATE events SET status = ? WHERE id = ?`, [item && item.status === 'done' ? 'todo' : 'done', id]);
+    },
+    [items],
+  );
 
   return (
     <ThemedView style={styles.container}>

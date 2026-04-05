@@ -76,7 +76,7 @@ export default function EventScreen() {
     const params = isEditing ? [...values, id] : [Crypto.randomUUID(), ...values];
     const query = isEditing
       ? `UPDATE events SET title = ?, description = ?, priority = ?, labels = ?, schedule = ?, status = ? WHERE id = ?`
-      : `INSERT INTO events (id, title, description, priority, labels, schedule, status VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      : `INSERT INTO events (id, title, description, priority, labels, schedule, status) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
     await db.runAsync(query, params);
     router.back();
