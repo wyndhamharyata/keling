@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, TextInput, useColorScheme } from 'react-native';
+import { Button, Platform, TextInput, useColorScheme } from 'react-native';
 
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
@@ -10,6 +10,9 @@ import { EMPTY_EVENT_ITEM, EventFormInput, EventItem, EventSchema } from '@/sche
 import * as v from 'valibot';
 import * as Crypto from 'expo-crypto';
 import { ThemedText } from '@/components/themed-text';
+import Schedule from './_events/schedule';
+import Title from './_events/title';
+import Description from './_events/description';
 
 type EventFormError = Partial<Record<keyof EventItem, string>>;
 
@@ -29,6 +32,7 @@ export default function EventScreen() {
   const [errors, setErrors] = useState<EventFormError>({});
 
   console.log('Errors: ', JSON.stringify(errors));
+  console.log('Input', JSON.stringify(input));
   console.log('Output', JSON.stringify(output));
 
   const handleChange = <K extends keyof EventItem>(field: K, value?: EventItem[K]) => {
@@ -94,32 +98,10 @@ export default function EventScreen() {
           headerRight: () => <Button title="Save" disabled={!output} onPress={handleSave} />,
         }}
       />
-      {/* Title Field*/}
-      <ThemedView style={{ marginHorizontal: 6 }}>
-        <TextInput
-          value={input.title}
-          style={[
-            styles.title,
-            {
-              color: Colors[theme].baseContent,
-              borderColor: errors['title'] ? Colors[theme].error : Colors[theme].baseContent,
-            },
-          ]}
-          placeholder="Task name"
-          onChangeText={(text) => handleChange('title', text)}
-        />
-        {errors['title'] && (
-          <ThemedText style={{ fontSize: 12, color: Colors[theme].error }}>{errors['title']}</ThemedText>
-        )}
-      </ThemedView>
 
-      <TextInput
-        value={input.description}
-        multiline
-        placeholder="Task description"
-        style={[styles.description, { color: Colors[theme].baseContent, backgroundColor: Colors[theme].base300 }]}
-        onChangeText={(text) => handleChange('description', text)}
-      />
+      <Title input={input} error={errors['title']} handleChange={handleChange} />
+      <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
+      <Description input={input} handleChange={handleChange} />
     </ThemedView>
   );
 }
@@ -128,19 +110,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    gap: 20,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    paddingVertical: 8,
-    borderBottomWidth: 3,
-  },
-  description: {
-    fontSize: 16,
-    padding: 12,
-    textAlignVertical: 'top',
-    minHeight: 100,
-    borderRadius: 12,
+    gap: 5,
   },
 });
