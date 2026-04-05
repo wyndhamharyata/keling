@@ -1,4 +1,5 @@
 import * as v from 'valibot';
+import { isValidCron } from 'cron-validator';
 
 export const EventStatusSchema = v.picklist(['todo', 'snoozed', 'done', 'skipped']);
 export const EventPrioritySchema = v.picklist(['low', 'medium', 'high']);
@@ -13,7 +14,11 @@ export const EventSchema = v.object({
   description: v.optional(v.string(), ''),
   priority: v.optional(EventPrioritySchema, 'low'),
   labels: v.array(v.string()),
-  schedule: v.pipe(v.string(), v.minLength(1, 'Schedule is required')),
+  schedule: v.pipe(
+    v.string(),
+    v.minLength(1, 'Schedule is required'),
+    v.check((s) => isValidCron(s), 'Invalid cron schedule format'),
+  ),
   status: v.optional(EventStatusSchema, 'todo'),
 });
 

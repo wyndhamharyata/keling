@@ -6,7 +6,6 @@ import { CircleCheckbox } from '@/components/ui/circle-checkbox';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { eventList } from './_index/mocks';
 import { formatSchedule } from './_index/scheduleParser';
 import { Colors } from '@/constants/theme';
 import { useCallback, useMemo, useState } from 'react';
@@ -14,6 +13,7 @@ import { LiquidGlassView } from '@callstack/liquid-glass';
 import { EventItem, EventStatus } from '@/schemas/event';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useDbListener } from '@/hooks/use-db-listener';
+import { scheduleForDate } from './_index/scheduleMatcher';
 
 const statusOrder: Record<EventStatus, number> = { todo: 0, snoozed: 1, done: 2, skipped: 3 };
 
@@ -23,7 +23,10 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const [items, setItems] = useState<EventItem[]>([]);
-  useDbListener('events', () => setItems(db.getAllSync<EventItem>('SELECT * FROM events')));
+  useDbListener('events', () => {
+    const { sql, params } = scheduleForDate(new Date());
+    setItems(db.getAllSync<EventItem>(sql, params));
+  });
 
   const sortedItems = useMemo(() => [...items].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]), [items]);
 
@@ -115,15 +118,15 @@ const styles = StyleSheet.create({
     right: 24,
   },
   fab: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
   fabText: {
     color: '#fff',
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '300',
     lineHeight: 30,
   },
