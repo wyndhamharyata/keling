@@ -13,7 +13,7 @@ export default function Schedule({ input, error, handleChange }: ScheduleProps) 
   const theme = useColorScheme() ?? 'light';
   return (
     <ThemedView>
-      <ThemedText style={{ marginHorizontal: 6, fontSize: 13, fontWeight: 'bold' }}>SCHEDULE</ThemedText>
+      <ThemedText style={{ marginHorizontal: 6, fontSize: 13, fontWeight: 'bold', color: Colors[theme].base600 }}>SCHEDULE</ThemedText>
       <TextInput
         value={input.schedule}
         placeholder="Task schedule"
@@ -28,16 +28,18 @@ export default function Schedule({ input, error, handleChange }: ScheduleProps) 
         ]}
         onChangeText={(text) => handleChange('schedule', text)}
       />
-      <ThemedText
-        style={{
-          marginHorizontal: 6,
-          visibility: error ? 'visible' : 'invisible',
-          fontSize: 12,
-          color: Colors[theme].error,
-        }}
-      >
-        {error}
-      </ThemedText>
+      {error && (
+        <ThemedText
+          style={{
+            marginHorizontal: 6,
+            visibility: error ? 'visible' : 'invisible',
+            fontSize: 12,
+            color: Colors[theme].error,
+          }}
+        >
+          {error}
+        </ThemedText>
+      )}
     </ThemedView>
   );
 }

@@ -25,9 +25,11 @@ export default function Title({ input, error, handleChange }: TitleProps) {
         placeholder="Task name"
         onChangeText={(text) => handleChange('title', text)}
       />
-      <ThemedText style={{ visibility: error ? 'visible' : 'invisible', fontSize: 12, color: Colors[theme].error }}>
-        {error}
-      </ThemedText>
+      {error && (
+        <ThemedText style={{ visibility: error ? 'visible' : 'invisible', fontSize: 12, color: Colors[theme].error }}>
+          {error}
+        </ThemedText>
+      )}
     </ThemedView>
   );
 }

@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Platform, TextInput, useColorScheme } from 'react-native';
+import { Button, Pressable, View, useColorScheme } from 'react-native';
 
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
@@ -9,10 +9,12 @@ import { useState } from 'react';
 import { EMPTY_EVENT_ITEM, EventFormInput, EventItem, EventSchema } from '@/schemas/event';
 import * as v from 'valibot';
 import * as Crypto from 'expo-crypto';
-import { ThemedText } from '@/components/themed-text';
 import Schedule from './_events/schedule';
 import Title from './_events/title';
 import Description from './_events/description';
+import { LiquidGlassView } from '@callstack/liquid-glass';
+import { ThemedText } from '@/components/themed-text';
+import Priority from './_events/priority';
 
 type EventFormError = Partial<Record<keyof EventItem, string>>;
 
@@ -100,8 +102,11 @@ export default function EventScreen() {
       />
 
       <Title input={input} error={errors['title']} handleChange={handleChange} />
+
       <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
       <Description input={input} handleChange={handleChange} />
+
+      <Priority input={input} error={errors['priority']} handleChange={handleChange} />
     </ThemedView>
   );
 }
@@ -110,6 +115,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    gap: 5,
+    gap: 10,
   },
 });
