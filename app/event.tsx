@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, Pressable, View, useColorScheme } from 'react-native';
+import { Button, ScrollView, useColorScheme } from 'react-native';
 
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
@@ -13,8 +13,6 @@ import * as Crypto from 'expo-crypto';
 import Schedule from './_events/schedule';
 import Title from './_events/title';
 import Description from './_events/description';
-import { LiquidGlassView } from '@callstack/liquid-glass';
-import { ThemedText } from '@/components/themed-text';
 import Priority from './_events/priority';
 import Subtask from './_events/subtask';
 
@@ -30,7 +28,9 @@ export default function EventScreen() {
 
   const [record] = useState(() => {
     const row = id ? getFirstSync<EventItem>(db, `SELECT * FROM events WHERE id = ?`, [id], ['subtasks']) : null;
-    if (row) row.labels = typeof row.labels === 'string' ? (row.labels as unknown as string).split(',').filter(Boolean) : row.labels;
+    if (row)
+      row.labels =
+        typeof row.labels === 'string' ? (row.labels as unknown as string).split(',').filter(Boolean) : row.labels;
     return row;
   });
   const [input, setInput] = useState<EventFormInput>(
@@ -108,12 +108,13 @@ export default function EventScreen() {
         }}
       />
 
-      <Title input={input} error={errors['title']} handleChange={handleChange} />
-
-      <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
-      <Subtask input={input} error={undefined} handleChange={handleChange} />
-      <Description input={input} handleChange={handleChange} />
-      <Priority input={input} error={errors['priority']} handleChange={handleChange} />
+      <ScrollView style={{ height: '100%' }}>
+        <Title input={input} error={errors['title']} handleChange={handleChange} />
+        <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
+        <Subtask input={input} error={undefined} handleChange={handleChange} />
+        <Description input={input} handleChange={handleChange} />
+        <Priority input={input} error={errors['priority']} handleChange={handleChange} />
+      </ScrollView>
     </ThemedView>
   );
 }

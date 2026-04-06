@@ -14,11 +14,12 @@ export interface SubtaskProps {
 
 export default function Subtask({ input, handleChange }: SubtaskProps) {
   const theme = useColorScheme() ?? 'light';
+  const subtasks = Array.isArray(input['subtasks']) ? input['subtasks'] : [];
 
   return (
     <ThemedView style={{ gap: 10, paddingHorizontal: 6 }}>
       <ThemedText style={{ fontSize: 13, fontWeight: 'bold', color: Colors[theme].base600 }}>SUBTASKS</ThemedText>
-      {input['subtasks']?.map((s, index) => (
+      {subtasks.map((s, index) => (
         <Fragment key={`subtask-item-${index}`}>
           {index > 0 && (
             <ThemedView style={{ backgroundColor: Colors[theme].base500, height: StyleSheet.hairlineWidth }} />
