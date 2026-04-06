@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Suspense } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import 'react-native-reanimated';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import { migrateDatabase } from '@/db/migrations';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -25,14 +26,16 @@ export default function RootLayout() {
       }
     >
       <SQLiteProvider databaseName="keling.db" onInit={migrateDatabase} useSuspense options={{ enableChangeListener: true }}>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="event" options={{ title: 'New Event' }} />
-            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-          </Stack>
-          <StatusBar style="auto" />
-        </ThemeProvider>
+        <KeyboardProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen name="event" options={{ title: 'New Event' }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+            </Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
+        </KeyboardProvider>
       </SQLiteProvider>
     </Suspense>
   );

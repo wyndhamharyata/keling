@@ -1,5 +1,6 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, ScrollView, useColorScheme } from 'react-native';
+import { Button, useColorScheme } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
@@ -108,13 +109,13 @@ export default function EventScreen() {
         }}
       />
 
-      <ScrollView style={{ height: '100%' }}>
+      <KeyboardAwareScrollView style={{ height: '100%' }} bottomOffset={20} showsVerticalScrollIndicator={false}>
         <Title input={input} error={errors['title']} handleChange={handleChange} />
         <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
         <Subtask input={input} error={undefined} handleChange={handleChange} />
         <Description input={input} handleChange={handleChange} />
         <Priority input={input} error={errors['priority']} handleChange={handleChange} />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </ThemedView>
   );
 }
