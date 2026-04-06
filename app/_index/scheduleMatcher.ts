@@ -37,7 +37,7 @@ const CRON_CTE = `WITH _s1 AS (
 ), _s4 AS (
   SELECT *, p3 + INSTR(SUBSTR(schedule, p3 + 1), ' ') AS p4 FROM _s3
 ), cron AS (
-  SELECT id, title, description, priority, labels, schedule, status,
+  SELECT id, title, description, priority, labels, schedule, status, subtasks,
     SUBSTR(schedule, p2 + 1, p3 - p2 - 1) AS cron_dom,
     SUBSTR(schedule, p3 + 1, p4 - p3 - 1) AS cron_month,
     SUBSTR(schedule, p4 + 1) AS cron_dow
@@ -92,7 +92,7 @@ export function scheduleForDate(date: Date, opts?: ScheduleQueryOpts): ScheduleQ
   const params: SqlBindParams = [];
   const condition = dateConditionSql(date, params);
 
-  let sql = `${CRON_CTE} SELECT id, title, description, priority, labels, schedule, status FROM cron WHERE ${condition}`;
+  let sql = `${CRON_CTE} SELECT id, title, description, priority, labels, schedule, status, subtasks FROM cron WHERE ${condition}`;
   if (opts?.where) {
     sql += ` AND (${opts.where})`;
     if (opts.whereParams) params.push(...opts.whereParams);

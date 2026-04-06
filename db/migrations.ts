@@ -24,8 +24,12 @@ const migrations: Migration[] = [
       );
     `);
   },
-  // To add a new migration: append a function here.
-  // It will automatically run on next app launch for users on older versions.
+  // Migration 1 → 2
+  async (db) => {
+    await db.execAsync(`
+      ALTER TABLE events ADD COLUMN subtasks TEXT NOT NULL DEFAULT '[]';
+    `);
+  },
 ];
 
 export async function migrateDatabase(db: SQLiteDatabase): Promise<void> {

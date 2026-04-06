@@ -7,6 +7,7 @@ import { StyleSheet } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useState } from 'react';
 import { EMPTY_EVENT_ITEM, EventFormInput, EventItem, EventSchema } from '@/schemas/event';
+import { getFirstSync } from '@/db/queries';
 import * as v from 'valibot';
 import * as Crypto from 'expo-crypto';
 import Schedule from './_events/schedule';
@@ -15,6 +16,7 @@ import Description from './_events/description';
 import { LiquidGlassView } from '@callstack/liquid-glass';
 import { ThemedText } from '@/components/themed-text';
 import Priority from './_events/priority';
+import Subtask from './_events/subtask';
 
 type EventFormError = Partial<Record<keyof EventItem, string>>;
 
@@ -26,7 +28,11 @@ export default function EventScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const isEditing = !!id;
 
-  const [record] = useState(id ? db.getFirstSync<EventItem>(`SELECT * FROM events WHERE id = ?`, id) : null);
+  const [record] = useState(() => {
+    const row = id ? getFirstSync<EventItem>(db, `SELECT * FROM events WHERE id = ?`, [id], ['subtasks']) : null;
+    if (row) row.labels = typeof row.labels === 'string' ? (row.labels as unknown as string).split(',').filter(Boolean) : row.labels;
+    return row;
+  });
   const [input, setInput] = useState<EventFormInput>(
     record ? { ...EMPTY_EVENT_ITEM, ...record } : { ...EMPTY_EVENT_ITEM, id: Crypto.randomUUID() },
   );
@@ -77,12 +83,13 @@ export default function EventScreen() {
       output.labels.join(','),
       output.schedule,
       output.status,
+      JSON.stringify(output.subtasks ?? []),
     ];
 
     const params = isEditing ? [...values, id] : [Crypto.randomUUID(), ...values];
     const query = isEditing
-      ? `UPDATE events SET title = ?, description = ?, priority = ?, labels = ?, schedule = ?, status = ? WHERE id = ?`
-      : `INSERT INTO events (id, title, description, priority, labels, schedule, status) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      ? `UPDATE events SET title = ?, description = ?, priority = ?, labels = ?, schedule = ?, status = ?, subtasks = ? WHERE id = ?`
+      : `INSERT INTO events (id, title, description, priority, labels, schedule, status, subtasks) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
     await db.runAsync(query, params);
     router.back();
@@ -104,8 +111,8 @@ export default function EventScreen() {
       <Title input={input} error={errors['title']} handleChange={handleChange} />
 
       <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
+      <Subtask input={input} error={undefined} handleChange={handleChange} />
       <Description input={input} handleChange={handleChange} />
-
       <Priority input={input} error={errors['priority']} handleChange={handleChange} />
     </ThemedView>
   );

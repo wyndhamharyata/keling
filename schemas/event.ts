@@ -3,6 +3,12 @@ import { isValidCron } from 'cron-validator';
 
 export const EventStatusSchema = v.picklist(['todo', 'snoozed', 'done', 'skipped']);
 export const EventPrioritySchema = v.picklist(['low', 'medium', 'high']);
+
+export const EventSubtask = v.object({
+  label: v.pipe(v.string(), v.minLength(1, 'Subtask label could not be empty')),
+  isDone: v.boolean(),
+});
+
 export const EventSchema = v.object({
   id: v.pipe(v.string(), v.nonEmpty(), v.uuid()),
   title: v.pipe(
@@ -20,6 +26,7 @@ export const EventSchema = v.object({
     v.check((s) => isValidCron(s), 'Invalid cron schedule format'),
   ),
   status: v.optional(EventStatusSchema, 'todo'),
+  subtasks: v.optional(v.array(EventSubtask)),
 });
 
 export type EventStatus = v.InferOutput<typeof EventStatusSchema>;
@@ -35,4 +42,5 @@ export const EMPTY_EVENT_ITEM: EventItem = {
   labels: [],
   schedule: '30 9 * * *',
   status: 'todo',
+  subtasks: [],
 };

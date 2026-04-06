@@ -13,64 +13,63 @@ export interface PriorityProps {
 export default function Priority({ input, error, handleChange }: PriorityProps) {
   const theme = useColorScheme() ?? 'light';
 
-  const { activeColor, inactiveColor, activeContent, inactiveContent } = useMemo(
-    () => ({
-      activeColor: Colors[theme].primary,
-      inactiveColor: Colors[theme].base100,
-      activeContent: Colors[theme].primaryContent,
-      inactiveContent: Colors[theme].baseContent,
-    }),
-    [theme],
-  );
+  const getColors = (target: EventItem['priority']) => {
+    if (target !== input.priority) {
+      return { background: Colors[theme].base100, text: Colors[theme].baseContent };
+    }
+
+    if (target === 'low') return { background: Colors[theme].success, text: Colors[theme].successContent };
+    if (target === 'medium') return { background: Colors[theme].warning, text: Colors[theme].warningContent };
+    if (target === 'high') return { background: Colors[theme].error, text: Colors[theme].errorContent };
+  };
 
   return (
-    <View
-      style={{
-        backgroundColor: Colors[theme].base100,
-        flexDirection: 'row',
-        width: '100%',
-        height: 60,
-        alignItems: 'stretch',
-        gap: 15,
-        paddingVertical: 10,
-        borderRadius: 30,
-      }}
-    >
-      <Pressable style={{ flex: 1, flexBasis: 0 }} onPress={() => handleChange('priority', 'low')}>
-        <LiquidGlassView
-          tintColor={input.priority === 'low' ? activeColor : inactiveColor}
-          style={{ flex: 1, borderRadius: 20 }}
-          interactive={true}
-        >
-          <ThemedText style={{ color: input.priority === 'low' ? activeContent : inactiveContent, margin: 'auto' }}>
-            Low
-          </ThemedText>
-        </LiquidGlassView>
-      </Pressable>
+    <View>
+      <ThemedText style={{ marginHorizontal: 6, fontSize: 13, fontWeight: 'bold', color: Colors[theme].base600 }}>
+        PRIORITY
+      </ThemedText>
+      <View
+        style={{
+          backgroundColor: Colors[theme].base100,
+          flexDirection: 'row',
+          width: '100%',
+          height: 60,
+          alignItems: 'stretch',
+          gap: 15,
+          paddingVertical: 10,
+          borderRadius: 30,
+        }}
+      >
+        <Pressable style={{ flex: 1, flexBasis: 0 }} onPress={() => handleChange('priority', 'low')}>
+          <LiquidGlassView
+            tintColor={getColors('low')?.background}
+            style={{ flex: 1, borderRadius: 20 }}
+            interactive={true}
+          >
+            <ThemedText style={{ color: getColors('low')?.text, margin: 'auto' }}>Low</ThemedText>
+          </LiquidGlassView>
+        </Pressable>
 
-      <Pressable style={{ flex: 1, flexBasis: 0 }} onPress={() => handleChange('priority', 'medium')}>
-        <LiquidGlassView
-          tintColor={input.priority === 'medium' ? Colors[theme].primary : Colors[theme].base100}
-          style={{ flex: 1, borderRadius: 20 }}
-          interactive={true}
-        >
-          <ThemedText style={{ color: input.priority === 'medium' ? activeContent : inactiveContent, margin: 'auto' }}>
-            Medium
-          </ThemedText>
-        </LiquidGlassView>
-      </Pressable>
+        <Pressable style={{ flex: 1, flexBasis: 0 }} onPress={() => handleChange('priority', 'medium')}>
+          <LiquidGlassView
+            tintColor={getColors('medium')?.background}
+            style={{ flex: 1, borderRadius: 20 }}
+            interactive={true}
+          >
+            <ThemedText style={{ color: getColors('medium')?.text, margin: 'auto' }}>Medium</ThemedText>
+          </LiquidGlassView>
+        </Pressable>
 
-      <Pressable style={{ flex: 1, flexBasis: 0 }} onPress={() => handleChange('priority', 'high')}>
-        <LiquidGlassView
-          tintColor={input.priority === 'high' ? Colors[theme].primary : Colors[theme].base100}
-          style={{ flex: 1, borderRadius: 20 }}
-          interactive={true}
-        >
-          <ThemedText style={{ color: input.priority === 'high' ? activeContent : inactiveContent, margin: 'auto' }}>
-            High
-          </ThemedText>
-        </LiquidGlassView>
-      </Pressable>
+        <Pressable style={{ flex: 1, flexBasis: 0 }} onPress={() => handleChange('priority', 'high')}>
+          <LiquidGlassView
+            tintColor={getColors('high')?.background}
+            style={{ flex: 1, borderRadius: 20 }}
+            interactive={true}
+          >
+            <ThemedText style={{ color: getColors('high')?.text, margin: 'auto' }}>High</ThemedText>
+          </LiquidGlassView>
+        </Pressable>
+      </View>
     </View>
   );
 }

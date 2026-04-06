@@ -12,6 +12,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { LiquidGlassView } from '@callstack/liquid-glass';
 import { EventItem, EventStatus } from '@/schemas/event';
 import { useSQLiteContext } from 'expo-sqlite';
+import { getAllSync } from '@/db/queries';
 import { useDbListener } from '@/hooks/use-db-listener';
 import { scheduleForDate } from './_index/scheduleMatcher';
 
@@ -25,7 +26,7 @@ export default function HomeScreen() {
   const [items, setItems] = useState<EventItem[]>([]);
   useDbListener('events', () => {
     const { sql, params } = scheduleForDate(new Date());
-    setItems(db.getAllSync<EventItem>(sql, params));
+    setItems(getAllSync<EventItem>(db, sql, params, ['subtasks']));
   });
 
   const sortedItems = useMemo(() => [...items].sort((a, b) => statusOrder[a.status] - statusOrder[b.status]), [items]);
@@ -66,6 +67,7 @@ export interface EventItemViewProps {
 
 export function EventItemView({ item, onItemCheckboxClicked }: EventItemViewProps) {
   const theme = useColorScheme() ?? 'light';
+  const router = useRouter();
   return (
     <ThemedView style={styles.item}>
       <CircleCheckbox
@@ -73,7 +75,7 @@ export function EventItemView({ item, onItemCheckboxClicked }: EventItemViewProp
         onValueChange={onItemCheckboxClicked}
         color={Colors[theme].primary}
       />
-      <ThemedView style={styles.item_innerTextView}>
+      <Pressable style={styles.item_innerTextView} onPress={() => router.push(`/event?id=${item.id}`)}>
         <ThemedText style={{ fontSize: 18, color: Colors[theme].baseContent }}>{item.title}</ThemedText>
         <ThemedView style={styles.item_secondLine_View}>
           {item.priority === 'high' && (
@@ -83,7 +85,7 @@ export function EventItemView({ item, onItemCheckboxClicked }: EventItemViewProp
             ⧗ {formatSchedule(item.schedule)}
           </ThemedText>
         </ThemedView>
-      </ThemedView>
+      </Pressable>
     </ThemedView>
   );
 }
