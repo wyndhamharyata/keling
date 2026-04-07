@@ -109,7 +109,7 @@ export default function EventScreen() {
         }}
       />
 
-      <KeyboardAwareScrollView style={{ height: '100%' }} bottomOffset={20} showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView style={{ height: '100%' }} contentContainerStyle={{ gap: 10 }} bottomOffset={20} showsVerticalScrollIndicator={false}>
         <Title input={input} error={errors['title']} handleChange={handleChange} />
         <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
         <Subtask input={input} error={undefined} handleChange={handleChange} />
