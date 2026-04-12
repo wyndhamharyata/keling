@@ -1,5 +1,12 @@
 type SqlBindParams = (string | number)[];
 
+/** Returns the unix timestamp (seconds) for the start of the given date in local timezone. */
+export function toStartOfDayTimestamp(date: Date): number {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return Math.floor(d.getTime() / 1000);
+}
+
 interface ScheduleQueryOpts {
   where?: string;
   whereParams?: SqlBindParams;
@@ -89,10 +96,11 @@ function dateConditionSql(date: Date, params: SqlBindParams): string {
 
 /** Return a parameterized SQL query for events matching the given date. */
 export function scheduleForDate(date: Date, opts?: ScheduleQueryOpts): ScheduleQuery {
-  const params: SqlBindParams = [];
+  const dateTs = toStartOfDayTimestamp(date);
+  const params: SqlBindParams = [dateTs];
   const condition = dateConditionSql(date, params);
 
-  let sql = `${CRON_CTE} SELECT id, title, description, priority, labels, schedule, status, subtasks FROM cron WHERE ${condition}`;
+  let sql = `${CRON_CTE} SELECT cron.id, cron.title, cron.description, cron.priority, cron.labels, cron.schedule, COALESCE(a.status, cron.status) AS status, CASE WHEN a.id IS NOT NULL AND a.subtasks IS NOT NULL AND a.subtasks != '[]' THEN a.subtasks ELSE cron.subtasks END AS subtasks FROM cron LEFT JOIN actions a ON a.event_id = cron.id AND a.date = ? WHERE ${condition}`;
   if (opts?.where) {
     sql += ` AND (${opts.where})`;
     if (opts.whereParams) params.push(...opts.whereParams);

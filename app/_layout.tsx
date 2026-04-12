@@ -31,6 +31,7 @@ export default function RootLayout() {
             <Stack>
               <Stack.Screen name="index" options={{ headerShown: false }} />
               <Stack.Screen name="event" options={{ title: 'New Event' }} />
+              <Stack.Screen name="action" options={{ presentation: 'formSheet', title: 'Subtasks' }} />
               <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
             </Stack>
             <StatusBar style="auto" />

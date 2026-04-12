@@ -30,14 +30,25 @@ const migrations: Migration[] = [
       ALTER TABLE events ADD COLUMN subtasks TEXT NOT NULL DEFAULT '[]';
     `);
   },
+
+  // Migration 2 → 3
+  async (db) => {
+    await db.execAsync(`
+    CREATE TABLE actions (
+      id TEXT PRIMARY KEY NOT NULL,
+      event_id TEXT NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+      date INTEGER NOT NULL,
+      subtasks TEXT NOT NULL DEFAULT '[]',
+      status TEXT NOT NULL DEFAULT 'todo',
+      UNIQUE(event_id, date)
+    );`);
+  },
 ];
 
 export async function migrateDatabase(db: SQLiteDatabase): Promise<void> {
   await db.execAsync('PRAGMA journal_mode = WAL');
 
-  const result = await db.getFirstAsync<{ user_version: number }>(
-    'PRAGMA user_version'
-  );
+  const result = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
   let currentVersion = result!.user_version;
 
   for (let i = currentVersion; i < migrations.length; i++) {
