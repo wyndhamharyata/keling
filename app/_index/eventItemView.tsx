@@ -4,7 +4,6 @@ import { Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, useColorScheme } from 'react-native';
 import { formatSchedule } from './scheduleParser';
-import * as DropdownMenu from 'zeego/dropdown-menu';
 import { IconSymbol } from '@/components/ui/icon-symbol.ios';
 import { CircleCheckbox } from '@/components/ui/circle-checkbox';
 import { EventItem } from '@/schemas/event';
@@ -13,10 +12,9 @@ export interface EventItemViewProps {
   item: EventItem;
   dateTs: number;
   onItemCheckboxClicked: () => void;
-  onDelete: () => void;
 }
 
-export default function EventItemView({ item, dateTs, onItemCheckboxClicked, onDelete }: EventItemViewProps) {
+export default function EventItemView({ item, dateTs, onItemCheckboxClicked }: EventItemViewProps) {
   const theme = useColorScheme() ?? 'light';
   const router = useRouter();
   return (
@@ -42,21 +40,9 @@ export default function EventItemView({ item, dateTs, onItemCheckboxClicked, onD
           </ThemedText>
         </ThemedView>
       </ThemedView>
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger>
-          <Pressable hitSlop={8}>
-            <IconSymbol name="ellipsis" size={20} color={Colors[theme].secondary} />
-          </Pressable>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
-          <DropdownMenu.Item key="edit" onSelect={() => router.push(`/event?id=${item.id}`)}>
-            <DropdownMenu.ItemTitle>Edit</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-          <DropdownMenu.Item key="delete" onSelect={onDelete} destructive>
-            <DropdownMenu.ItemTitle>Delete</DropdownMenu.ItemTitle>
-          </DropdownMenu.Item>
-        </DropdownMenu.Content>
-      </DropdownMenu.Root>
+      <Pressable hitSlop={8} onPress={() => router.push(`/eventActions?id=${item.id}`)}>
+        <IconSymbol name="ellipsis" size={20} color={Colors[theme].secondary} />
+      </Pressable>
     </Pressable>
   );
 }

@@ -63,13 +63,6 @@ export default function HomeScreen() {
     [items, dateTs, db],
   );
 
-  const onItemDelete = useCallback(
-    (id: string) => {
-      db.runSync(`DELETE FROM events WHERE id = ?`, [id]);
-    },
-    [db],
-  );
-
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={{ flex: 1 }}>
@@ -94,7 +87,6 @@ export default function HomeScreen() {
                 item={item}
                 dateTs={dateTs}
                 onItemCheckboxClicked={() => onItemCheckboxClicked(item.id)}
-                onDelete={() => onItemDelete(item.id)}
               />
             </Animated.View>
           ))}
