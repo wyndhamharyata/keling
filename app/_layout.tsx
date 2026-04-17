@@ -9,6 +9,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import { migrateDatabase } from '@/db/migrations';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/constants/theme';
 
 export const unstable_settings = {
   anchor: 'index',
@@ -16,6 +17,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const theme = colorScheme ?? 'light';
 
   return (
     <Suspense
@@ -25,14 +27,36 @@ export default function RootLayout() {
         </View>
       }
     >
-      <SQLiteProvider databaseName="keling.db" onInit={migrateDatabase} useSuspense options={{ enableChangeListener: true }}>
+      <SQLiteProvider
+        databaseName="keling.db"
+        onInit={migrateDatabase}
+        useSuspense
+        options={{ enableChangeListener: true }}
+      >
         <KeyboardProvider>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>
               <Stack.Screen name="index" options={{ headerShown: false }} />
               <Stack.Screen name="event" options={{ title: 'New Event' }} />
-              <Stack.Screen name="action" options={{ presentation: 'formSheet', title: 'Subtasks', sheetAllowedDetents: [0.3, 0.5, 1.0] }} />
-              <Stack.Screen name="eventActions" options={{ presentation: 'formSheet', title: 'Actions', sheetAllowedDetents: [0.25] }} />
+              <Stack.Screen
+                name="action"
+                options={{
+                  contentStyle: { backgroundColor: Colors[theme].base100 },
+                  presentation: 'formSheet',
+                  title: 'Subtasks',
+                  sheetAllowedDetents: [0.3, 0.5, 1.0],
+                }}
+              />
+              <Stack.Screen
+                name="eventActions"
+                options={{
+                  contentStyle: { backgroundColor: Colors[theme].base100 },
+                  presentation: 'formSheet',
+                  headerShown: false,
+                  title: 'Actions',
+                  sheetAllowedDetents: [0.15],
+                }}
+              />
               <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
             </Stack>
             <StatusBar style="auto" />

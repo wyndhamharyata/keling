@@ -23,11 +23,10 @@ export default function EventActionsScreen() {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={[styles.container, { backgroundColor: Colors[theme].base100 }]}>
       <Pressable style={styles.item} onPress={onEdit}>
         <ThemedText style={{ fontSize: 18, color: Colors[theme].baseContent }}>Edit</ThemedText>
       </Pressable>
-      <ThemedView style={{ backgroundColor: Colors[theme].base500, height: StyleSheet.hairlineWidth }} />
       <Pressable style={styles.item} onPress={onDelete}>
         <ThemedText style={{ fontSize: 18, color: Colors[theme].error }}>Delete</ThemedText>
       </Pressable>

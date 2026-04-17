@@ -21,7 +21,9 @@ export default function EventItemView({ item, dateTs, onItemCheckboxClicked }: E
     <Pressable
       style={styles.item}
       onPress={() =>
-        !!item.subtasks && item.subtasks.length > 0 ? router.push(`/action?event_id=${item.id}&date=${dateTs}`) : onItemCheckboxClicked()
+        !!item.subtasks && item.subtasks.length > 0
+          ? router.push(`/action?event_id=${item.id}&date=${dateTs}`)
+          : onItemCheckboxClicked()
       }
     >
       <CircleCheckbox
@@ -30,7 +32,15 @@ export default function EventItemView({ item, dateTs, onItemCheckboxClicked }: E
         color={Colors[theme].primary}
       />
       <ThemedView style={styles.item_innerTextView}>
-        <ThemedText style={{ fontSize: 18, color: Colors[theme].baseContent }}>{item.title}</ThemedText>
+        <ThemedText
+          style={{
+            fontSize: 18,
+            color: Colors[theme].baseContent,
+            textDecorationLine: item.status === 'done' ? 'line-through' : 'none',
+          }}
+        >
+          {item.title}
+        </ThemedText>
         <ThemedView style={styles.item_secondLine_View}>
           {item.priority === 'high' && (
             <ThemedText style={{ fontSize: 13, color: Colors[theme].error }}>★ High Priority</ThemedText>

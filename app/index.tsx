@@ -67,27 +67,25 @@ export default function HomeScreen() {
     <ThemedView style={styles.container}>
       <SafeAreaView style={{ flex: 1 }}>
         <DateSwitcher date={date} goToNextDay={goToNextDay} goToPrevDay={goToPrevDay} />
-        <ThemedView style={{ gap: 8, marginVertical: 20 }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={{ flex: 1 }}>{`${count} of ${total} done`}</Text>
-            <Text style={{}}>{`${progress}%`}</Text>
-          </View>
-          <View style={{ height: 8, borderRadius: 4, backgroundColor: '#e0e0e0', overflow: 'hidden' }}>
-            <Animated.View
-              layout={LinearTransition}
-              style={{ height: 8, borderRadius: 4, backgroundColor: '#2e7d32', width: `${progress}%` }}
-            />
-          </View>
-        </ThemedView>
+        {total > 0 && (
+          <ThemedView style={{ gap: 8, marginVertical: 20 }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ flex: 1, color: Colors[theme].baseContent }}>{`${count} of ${total} done`}</Text>
+              <Text style={{ color: Colors[theme].baseContent }}>{`${progress}%`}</Text>
+            </View>
+            <View style={{ height: 12, borderRadius: 6, backgroundColor: Colors[theme].base500, overflow: 'hidden' }}>
+              <Animated.View
+                layout={LinearTransition}
+                style={{ height: 12, borderRadius: 6, backgroundColor: Colors[theme].success, width: `${progress}%` }}
+              />
+            </View>
+          </ThemedView>
+        )}
         <ScrollView>
           {sortedItems.map((item, index) => (
             <Animated.View key={item.id} layout={LinearTransition}>
               {index > 0 && <ThemedView style={[styles.separator, { backgroundColor: Colors[theme].base500 }]} />}
-              <EventItemView
-                item={item}
-                dateTs={dateTs}
-                onItemCheckboxClicked={() => onItemCheckboxClicked(item.id)}
-              />
+              <EventItemView item={item} dateTs={dateTs} onItemCheckboxClicked={() => onItemCheckboxClicked(item.id)} />
             </Animated.View>
           ))}
         </ScrollView>
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 16
+    paddingTop: 16,
   },
   separator: {
     height: StyleSheet.hairlineWidth,
