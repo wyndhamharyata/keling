@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import Animated, { LinearTransition } from 'react-native-reanimated';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as Crypto from 'expo-crypto';
 
 import { ThemedView } from '@/components/themed-view';
@@ -23,11 +23,14 @@ export default function HomeScreen() {
   const db = useSQLiteContext();
   const router = useRouter();
 
-  const [date, setDate] = useState(new Date());
+  const { dateUnix } = useLocalSearchParams<{ dateUnix?: string }>();
+  const [date, setDate] = useState(!!dateUnix ? new Date(parseInt(dateUnix)) : new Date());
   const [items, setItems] = useState<EventItem[]>([]);
 
   const goToPrevDay = () => setDate((d) => new Date(d.getTime() - 86400000));
   const goToNextDay = () => setDate((d) => new Date(d.getTime() + 86400000));
+
+  const showPicker = () => router.push(`/datePicker?dateUnix=${date.getTime()}`);
 
   const fetchItems = useCallback(() => {
     const { sql, params } = scheduleForDate(date);
@@ -66,7 +69,7 @@ export default function HomeScreen() {
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={{ flex: 1 }}>
-        <DateSwitcher date={date} goToNextDay={goToNextDay} goToPrevDay={goToPrevDay} />
+        <DateSwitcher date={date} goToNextDay={goToNextDay} goToPrevDay={goToPrevDay} showPicker={showPicker} />
         {total > 0 && (
           <ThemedView style={{ gap: 8, marginVertical: 20 }}>
             <View style={{ flexDirection: 'row' }}>

@@ -57,6 +57,14 @@ export default function RootLayout() {
                   sheetAllowedDetents: [0.15],
                 }}
               />
+              <Stack.Screen
+                name="datePicker"
+                options={{
+                  contentStyle: { backgroundColor: Colors[theme].base100 },
+                  presentation: 'formSheet',
+                  title: 'DatePicker',
+                }}
+              />
               <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
             </Stack>
             <StatusBar style="auto" />

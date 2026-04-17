@@ -20,7 +20,7 @@ export default function ActionScreen() {
   const { event_id, date } = useLocalSearchParams<{ event_id: string; date: string }>();
   const dateTs = Number(date);
 
-  const [event, setEvent] = useState(() =>
+  const [event] = useState(() =>
     getFirstSync<EventItem>(db, `SELECT * FROM events WHERE id = ?`, [event_id], ['subtasks']),
   );
 
@@ -40,7 +40,6 @@ export default function ActionScreen() {
 
       const hasFinishedAllTasks = !updated.some((i) => !i.isDone);
       const status = hasFinishedAllTasks ? 'done' : (event?.status ?? 'todo');
-      console.log('*** Has finished All Tasks', hasFinishedAllTasks, '*** Status', status);
 
       setSubtasks(updated);
       db.runSync(

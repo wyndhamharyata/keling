@@ -9,8 +9,10 @@ export interface DateSwitcherProps {
   date: Date;
   goToPrevDay: () => void;
   goToNextDay: () => void;
+  showPicker: () => void;
 }
-export default function DateSwitcher({ date, goToPrevDay, goToNextDay }: DateSwitcherProps) {
+
+export default function DateSwitcher({ date, goToPrevDay, goToNextDay, showPicker }: DateSwitcherProps) {
   const theme = useColorScheme() ?? 'light';
 
   const isToday =
@@ -33,9 +35,11 @@ export default function DateSwitcher({ date, goToPrevDay, goToNextDay }: DateSwi
           />
         </LiquidGlassView>
       </Pressable>
-      <LiquidGlassView interactive effect="regular" style={styles.dateSwitcherLabelContainer}>
-        <ThemedText style={styles.dateSwitcherLabel}>{dateLabel}</ThemedText>
-      </LiquidGlassView>
+      <Pressable onPress={showPicker}>
+        <LiquidGlassView interactive effect="regular" style={styles.dateSwitcherLabelContainer}>
+          <ThemedText style={styles.dateSwitcherLabel}>{dateLabel}</ThemedText>
+        </LiquidGlassView>
+      </Pressable>
       <Pressable onPress={goToNextDay} hitSlop={8}>
         <LiquidGlassView interactive effect="regular" style={styles.dateSwitcherChevron}>
           <IconSymbol name="chevron.right" size={18} color={Colors[theme].baseContent} />
