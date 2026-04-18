@@ -3,9 +3,10 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"],
+      "@/components/*": ["./app/_shared/components/*"],
+      "@/hooks/*": ["./app/_shared/hooks/*"],
+      "@/constants/*": ["./app/_shared/constants/*"]
     }
   },
   "include": [

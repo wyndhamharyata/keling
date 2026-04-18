@@ -68,7 +68,7 @@ export default function RootLayout() {
                 }}
               />
               <Stack.Screen
-                name="event/schedule"
+                name="event/schedule/index"
                 options={{
                   contentStyle: { backgroundColor: Colors[theme].base100 },
                   presentation: 'formSheet',
@@ -79,7 +79,6 @@ export default function RootLayout() {
                   headerStyle: { backgroundColor: Colors[theme].base100 },
                 }}
               />
-              <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
             </Stack>
             <StatusBar style="auto" />
           </ThemeProvider>

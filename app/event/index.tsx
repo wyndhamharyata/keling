@@ -11,12 +11,12 @@ import { EMPTY_EVENT_ITEM, EventFormInput, EventItem, EventSchema } from '@/sche
 import { getFirstSync } from '@/db/queries';
 import * as v from 'valibot';
 import * as Crypto from 'expo-crypto';
-import Schedule from './_events/schedule';
-import Title from './_events/title';
-import Description from './_events/description';
-import Priority from './_events/priority';
-import Subtask from './_events/subtask';
-import { SCHEDULE_SAVE_EVENT } from './event/schedule';
+import Schedule from './_components/schedule';
+import Title from './_components/title';
+import Description from './_components/description';
+import Priority from './_components/priority';
+import Subtask from './_components/subtask';
+import { SCHEDULE_SAVE_EVENT } from './schedule';
 
 type EventFormError = Partial<Record<keyof EventItem, string>>;
 

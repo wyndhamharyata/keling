@@ -22,10 +22,6 @@
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.keling"
     },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
     "plugins": [
       "expo-router",
       [
@@ -49,9 +45,7 @@
           }
         }
       ],
-      "expo-font",
-      "expo-image",
-      "expo-web-browser"
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,

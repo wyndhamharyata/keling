@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, beforeEach } from 'vitest';
 import Database from 'better-sqlite3';
-import { scheduleForDate, scheduleForDateRange } from '@/app/_index/scheduleMatcher';
+import { scheduleForDate, scheduleForDateRange } from '@/app/_components/scheduleMatcher';
 
 interface Row {
   id: string;

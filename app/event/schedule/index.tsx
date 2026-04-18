@@ -5,11 +5,11 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { Button, DeviceEventEmitter, StyleSheet } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import Frequency, { DatePickerType } from './_schedule/frequency';
-import Time from './_schedule/time';
-import PickerWeek from './_schedule/picker/week';
-import PickerMonth from './_schedule/picker/month';
-import PickerYear from './_schedule/picker/year';
+import Frequency, { DatePickerType } from './_components/frequency';
+import Time from './_components/time';
+import PickerWeek from './_components/picker/week';
+import PickerMonth from './_components/picker/month';
+import PickerYear from './_components/picker/year';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 
 export const SCHEDULE_SAVE_EVENT = 'event.schedule.save';

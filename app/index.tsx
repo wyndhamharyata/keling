@@ -13,9 +13,9 @@ import { EventItem, EventStatus } from '@/schemas/event';
 import { useSQLiteContext } from 'expo-sqlite';
 import { getAllSync } from '@/db/queries';
 import { useDbListener } from '@/hooks/use-db-listener';
-import { scheduleForDate, toStartOfDayTimestamp } from './_index/scheduleMatcher';
-import EventItemView from './_index/eventItemView';
-import DateSwitcher from './_index/dateSwitcher';
+import { scheduleForDate, toStartOfDayTimestamp } from './_components/scheduleMatcher';
+import EventItemView from './_components/eventItemView';
+import DateSwitcher from './_components/dateSwitcher';
 
 const statusOrder: Record<EventStatus, number> = { todo: 0, snoozed: 1, done: 2, skipped: 3 };
 
