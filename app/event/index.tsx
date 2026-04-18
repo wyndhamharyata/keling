@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, DeviceEventEmitter, StyleSheet } from 'react-native';
+import { Button, DeviceEventEmitter, Pressable, StyleSheet } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
@@ -17,6 +17,7 @@ import Description from './_components/description';
 import Priority from './_components/priority';
 import Subtask from './_components/subtask';
 import { SCHEDULE_SAVE_EVENT } from './schedule';
+import TimeTable from '../_shared/components/time-table';
 
 type EventFormError = Partial<Record<keyof EventItem, string>>;
 
@@ -125,8 +126,9 @@ export default function EventScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Title input={input} error={errors['title']} handleChange={handleChange} />
-        <Button title="To Schedule" onPress={() => router.navigate(`/event/schedule?cron=${input?.schedule}`)} />
-        <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
+        <Pressable onPress={() => router.navigate(`/event/schedule?cron=${input?.schedule}`)}>
+          <TimeTable schedule={input.schedule} />
+        </Pressable>
         <Subtask input={input} error={undefined} handleChange={handleChange} />
         <Description input={input} handleChange={handleChange} />
         <Priority input={input} error={errors['priority']} handleChange={handleChange} />

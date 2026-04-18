@@ -2,6 +2,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { DatePicker } from '@s77rt/react-native-date-picker';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
+import { ThemedView } from './_shared/components/themed-view';
 
 export default function DatePickerScreen() {
   const { dateUnix } = useLocalSearchParams<{ dateUnix?: string }>();
@@ -16,8 +17,8 @@ export default function DatePickerScreen() {
   };
 
   return (
-    <>
+    <ThemedView style={{ paddingHorizontal: 10 }}>
       <DatePicker type="date" value={date} onChange={setDate} inline styles={{ accentColor: Colors[theme].primary }} />
-    </>
+    </ThemedView>
   );
 }

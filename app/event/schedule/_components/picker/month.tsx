@@ -76,13 +76,13 @@ export default function PickerMonth({ schedule, onSetSchedule }: PickerMonthProp
             style={{}}
           >
             <LiquidGlassView
-              tintColor={new Set(selectedDates).has(f) ? Colors[theme].primary : Colors[theme].base300}
+              tintColor={new Set(selectedDates).has(f) ? Colors[theme].baseContent : Colors[theme].base300}
               style={{ width: 35, height: 35, borderRadius: 17 }}
               interactive={true}
             >
               <ThemedText
                 style={{
-                  color: new Set(selectedDates).has(f) ? Colors[theme].primaryContent : Colors[theme].baseContent,
+                  color: new Set(selectedDates).has(f) ? Colors[theme].base100 : Colors[theme].baseContent,
                   margin: 'auto',
                   fontSize: 14,
                 }}

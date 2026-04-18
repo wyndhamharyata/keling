@@ -3,7 +3,7 @@ import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { LiquidGlassView } from '@callstack/liquid-glass';
 import { useEffect, useState } from 'react';
-import { Pressable, TextInput } from 'react-native';
+import { Platform, Pressable, TextInput } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export interface TimeProps {
@@ -73,10 +73,11 @@ export default function Time({ schedule, onSetSchedule }: TimeProps) {
           onChangeText={onTimeChange}
           keyboardType="number-pad"
           maxLength={5}
-          inputMode='numeric'
+          inputMode="numeric"
           style={{
+            fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
             fontSize: 50,
-            fontWeight: 'bold',
+            fontWeight: 'semibold',
             letterSpacing: 12,
             color: Colors[theme].accent,
             textAlign: 'center',

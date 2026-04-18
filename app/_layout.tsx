@@ -72,7 +72,7 @@ export default function RootLayout() {
                 options={{
                   contentStyle: { backgroundColor: Colors[theme].base100 },
                   presentation: 'formSheet',
-                  title: 'Schedule',
+                  title: 'Scheduler',
                   headerShown: true,
                   headerShadowVisible: false,
                   headerTitleStyle: { color: Colors[theme].baseContent },
