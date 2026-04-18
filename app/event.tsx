@@ -1,11 +1,11 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, useColorScheme, StyleSheet } from 'react-native';
+import { Button, DeviceEventEmitter, useColorScheme, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EMPTY_EVENT_ITEM, EventFormInput, EventItem, EventSchema } from '@/schemas/event';
 import { getFirstSync } from '@/db/queries';
 import * as v from 'valibot';
@@ -15,6 +15,7 @@ import Title from './_events/title';
 import Description from './_events/description';
 import Priority from './_events/priority';
 import Subtask from './_events/subtask';
+import { SCHEDULE_SAVE_EVENT } from './event/schedule';
 
 type EventFormError = Partial<Record<keyof EventItem, string>>;
 
@@ -38,6 +39,14 @@ export default function EventScreen() {
   );
   const [output, setOutput] = useState<EventItem | null>(record);
   const [errors, setErrors] = useState<EventFormError>({});
+
+  useEffect(() => {
+    const sub = DeviceEventEmitter.addListener(SCHEDULE_SAVE_EVENT, (cron: string) => {
+      handleChange('schedule', cron);
+    });
+    return () => sub.remove();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   console.log('Errors: ', JSON.stringify(errors));
   console.log('Input', JSON.stringify(input));
@@ -115,7 +124,7 @@ export default function EventScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Title input={input} error={errors['title']} handleChange={handleChange} />
-        <Button title="To Schedule" onPress={() => router.push(`/event/schedule?cron=${input?.schedule}`)} />
+        <Button title="To Schedule" onPress={() => router.navigate(`/event/schedule?cron=${input?.schedule}`)} />
         <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
         <Subtask input={input} error={undefined} handleChange={handleChange} />
         <Description input={input} handleChange={handleChange} />
