@@ -9,6 +9,7 @@ import Frequency, { DatePickerType } from './_schedule/frequency';
 import Time from './_schedule/time';
 import PickerWeek from './_schedule/picker/week';
 import PickerMonth from './_schedule/picker/month';
+import PickerYear from './_schedule/picker/year';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 
 export const SCHEDULE_SAVE_EVENT = 'event.schedule.save';
@@ -17,8 +18,9 @@ function detectPickerType(cron: string | null): DatePickerType {
   if (!cron) return 'None';
   const parts = cron.split(' ').filter(Boolean);
   if (parts.length < 5) return 'None';
-  const [, , dom, , dow] = parts;
+  const [, , dom, mon, dow] = parts;
   if (dow !== '*') return 'Week';
+  if (mon !== '*') return 'Month';
   if (dom !== '*') return 'Date';
   return 'None';
 }
@@ -64,6 +66,16 @@ export default function Schedule() {
             return <PickerWeek schedule={schedule} onSetSchedule={setSchedule} />;
           case 'Date':
             return <PickerMonth schedule={schedule} onSetSchedule={setSchedule} />;
+          case 'Month':
+            return (
+              <>
+                <PickerYear schedule={schedule} onSetSchedule={setSchedule} />
+                <ThemedView
+                  style={{ backgroundColor: Colors[theme].base500, marginTop: 4, height: StyleSheet.hairlineWidth }}
+                />
+                <PickerMonth schedule={schedule} onSetSchedule={setSchedule} />
+              </>
+            );
           default:
             return null;
         }

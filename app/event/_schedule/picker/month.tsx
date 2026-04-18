@@ -63,7 +63,7 @@ export default function PickerMonth({ schedule, onSetSchedule }: PickerMonthProp
   return (
     <>
       <ThemedText style={{ marginHorizontal: 6, fontSize: 13, fontWeight: 'bold', color: Colors[theme].base600 }}>
-        DAYS OF WEEK
+        DAYS OF MONTH
       </ThemedText>
       <ThemedView style={{ flexWrap: 'wrap', flexDirection: 'row', gap: 15 }}>
         {DAYS_OF_MONTH.map((f, index) => (
@@ -76,13 +76,13 @@ export default function PickerMonth({ schedule, onSetSchedule }: PickerMonthProp
             style={{}}
           >
             <LiquidGlassView
-              tintColor={new Set(selectedDates).has(f) ? Colors[theme].baseContent : Colors[theme].base300}
+              tintColor={new Set(selectedDates).has(f) ? Colors[theme].primary : Colors[theme].base300}
               style={{ width: 35, height: 35, borderRadius: 17 }}
               interactive={true}
             >
               <ThemedText
                 style={{
-                  color: new Set(selectedDates).has(f) ? Colors[theme].base300 : Colors[theme].baseContent,
+                  color: new Set(selectedDates).has(f) ? Colors[theme].primaryContent : Colors[theme].baseContent,
                   margin: 'auto',
                   fontSize: 14,
                 }}

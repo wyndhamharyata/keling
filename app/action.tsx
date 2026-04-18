@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Fragment, useCallback, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -57,7 +57,11 @@ export default function ActionScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
+    <ScrollView
+      style={{ backgroundColor: Colors[theme].base100 }}
+      contentContainerStyle={styles.container}
+      contentInsetAdjustmentBehavior="automatic"
+    >
       <Stack.Screen
         options={{
           title: event.title,
@@ -98,13 +102,12 @@ export default function ActionScreen() {
           ))}
         </ThemedView>
       )}
-    </ThemedView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingHorizontal: 24,
     paddingTop: 10,
   },
