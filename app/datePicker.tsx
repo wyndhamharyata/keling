@@ -17,7 +17,7 @@ export default function DatePickerScreen() {
   };
 
   return (
-    <ThemedView style={{ paddingHorizontal: 10 }}>
+    <ThemedView style={{ paddingHorizontal: 10 }} lightColor="#ffffff" darkColor="#1c1c1e">
       <DatePicker type="date" value={date} onChange={setDate} inline styles={{ accentColor: Colors[theme].primary }} />
     </ThemedView>
   );

@@ -10,10 +10,7 @@ export interface PickerYearProps {
   onSetSchedule: (schedule: string | null) => void;
 }
 
-const MONTHS = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function replaceCronMonths(months: string[], cron: string | null): string | null {
   if (!cron) return cron;

@@ -60,7 +60,7 @@ export default function RootLayout() {
               <Stack.Screen
                 name="datePicker"
                 options={{
-                  contentStyle: { backgroundColor: Colors[theme].base100 },
+                  contentStyle: { backgroundColor: theme === 'dark' ? '#1c1c1e' : '#ffffff' },
                   presentation: 'formSheet',
                   title: 'DatePicker',
                   headerShown: false,

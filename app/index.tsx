@@ -70,7 +70,6 @@ export default function HomeScreen() {
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={{ flex: 1 }}>
-        <DateSwitcher date={date} goToNextDay={goToNextDay} goToPrevDay={goToPrevDay} showPicker={showPicker} />
         {total > 0 && (
           <ThemedView style={{ gap: 8, marginVertical: 20 }}>
             <View style={{ flexDirection: 'row' }}>
@@ -93,6 +92,7 @@ export default function HomeScreen() {
             </Animated.View>
           ))}
         </ScrollView>
+        <DateSwitcher date={date} goToNextDay={goToNextDay} goToPrevDay={goToPrevDay} showPicker={showPicker} />
       </SafeAreaView>
       <Pressable style={styles.fabContainer} onPress={() => router.push('/event')}>
         <LiquidGlassView interactive style={styles.fab} effect={'regular'} tintColor={Colors[theme].primary}>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   fabContainer: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 120,
     right: 24,
   },
   fab: {

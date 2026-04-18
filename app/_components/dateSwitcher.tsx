@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dateSwitcherChevron: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
   },
