@@ -63,6 +63,18 @@ export default function RootLayout() {
                   contentStyle: { backgroundColor: Colors[theme].base100 },
                   presentation: 'formSheet',
                   title: 'DatePicker',
+                  headerShown: false,
+                  sheetAllowedDetents: [0.48],
+                }}
+              />
+              <Stack.Screen
+                name="event/schedule"
+                options={{
+                  contentStyle: { backgroundColor: Colors[theme].base100 },
+                  presentation: 'formSheet',
+                  title: 'Schedule',
+                  headerShown: false,
+                  sheetAllowedDetents: [0.95],
                 }}
               />
               <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />

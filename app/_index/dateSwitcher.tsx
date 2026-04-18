@@ -68,9 +68,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dateSwitcherLabelContainer: {
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 28,
+    borderRadius: 24,
   },
   dateSwitcherLabel: {
     fontSize: 16,
