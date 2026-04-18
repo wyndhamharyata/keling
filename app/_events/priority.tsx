@@ -2,7 +2,6 @@ import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { EventFormInput, EventItem } from '@/schemas/event';
 import { LiquidGlassView } from '@callstack/liquid-glass';
-import { useMemo } from 'react';
 import { Pressable, useColorScheme, View } from 'react-native';
 
 export interface PriorityProps {
@@ -10,7 +9,7 @@ export interface PriorityProps {
   error: string | undefined;
   handleChange: <K extends keyof EventItem>(field: K, value?: EventItem[K]) => void;
 }
-export default function Priority({ input, error, handleChange }: PriorityProps) {
+export default function Priority({ input, error: _error, handleChange }: PriorityProps) {
   const theme = useColorScheme() ?? 'light';
 
   const getColors = (target: EventItem['priority']) => {

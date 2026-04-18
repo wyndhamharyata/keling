@@ -1,10 +1,9 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, useColorScheme } from 'react-native';
+import { Button, useColorScheme , StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
-import { StyleSheet } from 'react-native';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useState } from 'react';
 import { EMPTY_EVENT_ITEM, EventFormInput, EventItem, EventSchema } from '@/schemas/event';

@@ -1,5 +1,4 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
 import { DatePicker } from '@s77rt/react-native-date-picker';
 import { useColorScheme } from 'react-native';
 import { Colors } from '@/constants/theme';

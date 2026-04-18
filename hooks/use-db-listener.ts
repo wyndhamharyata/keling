@@ -6,16 +6,17 @@ export function useDbListener(tableNames: string | string[], onChange: () => voi
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 
-  const names = Array.isArray(tableNames) ? tableNames : [tableNames];
+  const namesKey = Array.isArray(tableNames) ? tableNames.join(',') : tableNames;
 
   useEffect(() => {
     onChangeRef.current();
 
+    const names = namesKey.split(',');
     const subscription = addDatabaseChangeListener(({ tableName: changed }) => {
       if (names.includes(changed)) {
         onChangeRef.current();
       }
     });
     return () => subscription.remove();
-  }, [db, names.join(',')]);
+  }, [db, namesKey]);
 }
