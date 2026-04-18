@@ -1,6 +1,7 @@
 import { Colors } from '@/constants/theme';
 import { EventFormInput, EventItem } from '@/schemas/event';
-import { StyleSheet, TextInput, useColorScheme } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export interface DefaultProp {
   input: EventFormInput;

@@ -4,7 +4,8 @@ import { CircleCheckbox } from '@/components/ui/circle-checkbox';
 import { Colors } from '@/constants/theme';
 import { EventFormInput, EventItem } from '@/schemas/event';
 import { Fragment } from 'react';
-import { Pressable, StyleSheet, TextInput, useColorScheme } from 'react-native';
+import { Pressable, StyleSheet, TextInput } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export interface SubtaskProps {
   input: EventFormInput;

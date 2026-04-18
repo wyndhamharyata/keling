@@ -3,7 +3,8 @@ import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { LiquidGlassView } from '@callstack/liquid-glass';
-import { Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export interface DateSwitcherProps {
   date: Date;

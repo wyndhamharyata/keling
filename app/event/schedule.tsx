@@ -2,7 +2,8 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { Button, DeviceEventEmitter, StyleSheet, useColorScheme } from 'react-native';
+import { Button, DeviceEventEmitter, StyleSheet } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import Frequency, { DatePickerType } from './_schedule/frequency';
 import Time from './_schedule/time';
@@ -49,6 +50,7 @@ export default function Schedule() {
     <KeyboardAwareScrollView
       style={{ height: '100%' }}
       contentContainerStyle={{ paddingVertical: 20, paddingHorizontal: 24, gap: 10 }}
+      contentInsetAdjustmentBehavior="automatic"
       bottomOffset={20}
       showsVerticalScrollIndicator={false}
     >

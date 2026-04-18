@@ -1,5 +1,6 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Pressable, StyleSheet, useColorScheme } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Fragment, useCallback, useState } from 'react';
 import { useSQLiteContext } from 'expo-sqlite';
 import * as Crypto from 'expo-crypto';

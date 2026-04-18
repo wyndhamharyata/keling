@@ -1,4 +1,5 @@
-import { Pressable, ScrollView, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import Animated, { LinearTransition } from 'react-native-reanimated';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as Crypto from 'expo-crypto';

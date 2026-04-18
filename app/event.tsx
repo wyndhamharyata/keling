@@ -1,5 +1,6 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, DeviceEventEmitter, useColorScheme, StyleSheet } from 'react-native';
+import { Button, DeviceEventEmitter, StyleSheet } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { ThemedView } from '@/components/themed-view';

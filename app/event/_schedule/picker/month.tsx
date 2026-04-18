@@ -2,7 +2,8 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { LiquidGlassView } from '@callstack/liquid-glass';
-import { Pressable, useColorScheme } from 'react-native';
+import { Pressable } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export interface PickerMonthProps {
   schedule: string | null;

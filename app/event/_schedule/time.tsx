@@ -3,7 +3,8 @@ import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { LiquidGlassView } from '@callstack/liquid-glass';
 import { useEffect, useState } from 'react';
-import { Pressable, TextInput, useColorScheme } from 'react-native';
+import { Pressable, TextInput } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export interface TimeProps {
   schedule: string | null;

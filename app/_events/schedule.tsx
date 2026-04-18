@@ -2,7 +2,8 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { EventFormInput, EventItem } from '@/schemas/event';
-import { Platform, TextInput, StyleSheet, useColorScheme } from 'react-native';
+import { Platform, TextInput, StyleSheet } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export interface ScheduleProps {
   input: EventFormInput;

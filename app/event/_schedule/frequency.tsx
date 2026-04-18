@@ -3,7 +3,8 @@ import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { LiquidGlassView } from '@callstack/liquid-glass';
 import { useState } from 'react';
-import { Pressable, useColorScheme } from 'react-native';
+import { Pressable } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export type DatePickerType = 'None' | 'Week' | 'Date' | 'Month';
 
@@ -20,8 +21,8 @@ export default function Frequency({ pickerType, onSetSchedule, onPickerChange }:
   >([
     { label: 'Once', selected: false, schedule: '* * * * *', pickerType: 'None' },
     { label: 'Daily', selected: false, schedule: '0 9 * * *  ', pickerType: 'None' },
-    { label: 'Weekdays', selected: pickerType === 'Week', schedule: '0 9 * * 1-5', pickerType: 'Week' },
-    { label: 'Weekly', selected: false, schedule: '0 9 * * 1', pickerType: 'Week' },
+    { label: 'Weekdays', selected: false, schedule: '0 9 * * 1-5', pickerType: 'Week' },
+    { label: 'Weekly', selected: pickerType === 'Week', schedule: '0 9 * * 1', pickerType: 'Week' },
     { label: 'Monthly', selected: pickerType === 'Date', schedule: '0 9 1 * *', pickerType: 'Date' },
     { label: 'Yearly', selected: false, schedule: '0 9 1 1 *', pickerType: 'Month' },
   ]);

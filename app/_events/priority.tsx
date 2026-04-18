@@ -2,7 +2,8 @@ import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { EventFormInput, EventItem } from '@/schemas/event';
 import { LiquidGlassView } from '@callstack/liquid-glass';
-import { Pressable, useColorScheme, View } from 'react-native';
+import { Pressable, View } from 'react-native';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export interface PriorityProps {
   input: EventFormInput;
