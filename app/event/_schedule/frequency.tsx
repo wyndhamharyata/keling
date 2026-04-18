@@ -5,19 +5,25 @@ import { LiquidGlassView } from '@callstack/liquid-glass';
 import { useState } from 'react';
 import { Pressable, useColorScheme } from 'react-native';
 
+export type DatePickerType = 'None' | 'Week' | 'Date' | 'Month';
+
 export interface FrequencyProps {
+  pickerType: DatePickerType;
   onSetSchedule: (schedule: string) => void;
+  onPickerChange: (picker: DatePickerType) => void;
 }
 
-export default function Frequency({ onSetSchedule }: FrequencyProps) {
+export default function Frequency({ pickerType, onSetSchedule, onPickerChange }: FrequencyProps) {
   const theme = useColorScheme() ?? 'light';
-  const [freq, setFreq] = useState([
-    { label: 'Once', selected: false },
-    { label: 'Daily', selected: false, schedule: '0 9 * * *  ' },
-    { label: 'Weekdays', selected: false, schedule: '0 9 * * 1-5' },
-    { label: 'Weekly', selected: false, schedule: '0 9 * * 1' },
-    { label: 'Monthly', selected: false, schedule: '0 9 1 * *' },
-    { label: 'Yearly', selected: false, schedule: '0 9 1 1 *' },
+  const [freq, setFreq] = useState<
+    { label: string; selected: boolean; schedule: string; pickerType: DatePickerType }[]
+  >([
+    { label: 'Once', selected: false, schedule: '* * * * *', pickerType: 'None' },
+    { label: 'Daily', selected: false, schedule: '0 9 * * *  ', pickerType: 'None' },
+    { label: 'Weekdays', selected: pickerType === 'Week', schedule: '0 9 * * 1-5', pickerType: 'Week' },
+    { label: 'Weekly', selected: false, schedule: '0 9 * * 1', pickerType: 'Week' },
+    { label: 'Monthly', selected: pickerType === 'Date', schedule: '0 9 1 * *', pickerType: 'Date' },
+    { label: 'Yearly', selected: false, schedule: '0 9 1 1 *', pickerType: 'Month' },
   ]);
 
   return (
@@ -31,7 +37,10 @@ export default function Frequency({ onSetSchedule }: FrequencyProps) {
             key={`frequency-index-${index}`}
             onPress={() => {
               setFreq((prev) => prev.map((v, i) => ({ ...v, selected: i === index })));
-              if (f.schedule) onSetSchedule(f.schedule);
+              if (f.schedule) {
+                onSetSchedule(f.schedule);
+                onPickerChange(f.pickerType);
+              }
             }}
           >
             <LiquidGlassView

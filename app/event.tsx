@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { Button, useColorScheme , StyleSheet } from 'react-native';
+import { Button, useColorScheme, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 import { ThemedView } from '@/components/themed-view';
@@ -115,7 +115,7 @@ export default function EventScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Title input={input} error={errors['title']} handleChange={handleChange} />
-        <Button title="To Schedule" onPress={() => router.push('/event/schedule')} />
+        <Button title="To Schedule" onPress={() => router.push(`/event/schedule?cron=${input?.schedule}`)} />
         <Schedule input={input} error={errors['schedule']} handleChange={handleChange} />
         <Subtask input={input} error={undefined} handleChange={handleChange} />
         <Description input={input} handleChange={handleChange} />

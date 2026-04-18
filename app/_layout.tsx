@@ -74,7 +74,7 @@ export default function RootLayout() {
                   presentation: 'formSheet',
                   title: 'Schedule',
                   headerShown: false,
-                  sheetAllowedDetents: [0.95],
+                  sheetAllowedDetents: [1],
                 }}
               />
               <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
