@@ -10,7 +10,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.keling",
-      "appleTeamId": "XSVUW54338"
+      "appleTeamId": "XSVUW54338",
+      "infoPlist": {
+        "NSAlarmKitUsageDescription": "Keling uses alarms to remind you about scheduled events at the time you set."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -41,7 +44,7 @@
         "expo-build-properties",
         {
           "ios": {
-            "deploymentTarget": "17.0"
+            "deploymentTarget": "18.0"
           }
         }
       ],

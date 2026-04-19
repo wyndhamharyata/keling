@@ -70,6 +70,9 @@ export default function HomeScreen() {
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={{ flex: 1 }}>
+        {/* <Pressable onPress={() => router.push('/alarm-test')} style={styles.alarmTestLink}> */}
+        {/*   <Text style={{ color: Colors[theme].primary }}>AlarmKit test →</Text> */}
+        {/* </Pressable> */}
         {total > 0 && (
           <ThemedView style={{ gap: 8, marginVertical: 20 }}>
             <View style={{ flexDirection: 'row' }}>
@@ -129,5 +132,9 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '300',
     lineHeight: 30,
+  },
+  alarmTestLink: {
+    alignSelf: 'flex-end',
+    paddingVertical: 4,
   },
 });
