@@ -9,7 +9,13 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 import { migrateDatabase } from '@/db/migrations';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useAlarmRefresher } from '@/hooks/use-alarm-refresher';
 import { Colors } from '@/constants/theme';
+
+function AlarmRefresher() {
+  useAlarmRefresher();
+  return null;
+}
 
 export const unstable_settings = {
   anchor: 'index',
@@ -33,6 +39,7 @@ export default function RootLayout() {
         useSuspense
         options={{ enableChangeListener: true }}
       >
+        <AlarmRefresher />
         <KeyboardProvider>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <Stack>

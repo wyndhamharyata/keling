@@ -43,6 +43,16 @@ const migrations: Migration[] = [
       UNIQUE(event_id, date)
     );`);
   },
+
+  // Migration 3 → 4
+  async (db) => {
+    await db.execAsync(`
+      CREATE TABLE metadata (
+        key TEXT PRIMARY KEY NOT NULL,
+        value TEXT NOT NULL
+      );
+    `);
+  },
 ];
 
 export async function migrateDatabase(db: SQLiteDatabase): Promise<void> {
