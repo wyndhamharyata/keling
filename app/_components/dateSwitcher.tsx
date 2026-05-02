@@ -62,16 +62,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   dateSwitcherChevron: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
   },
   dateSwitcherLabelContainer: {
-    paddingVertical: 12,
+    paddingVertical: 16,
     paddingHorizontal: 28,
-    borderRadius: 24,
+    borderRadius: 28,
   },
   dateSwitcherLabel: {
     fontSize: 16,

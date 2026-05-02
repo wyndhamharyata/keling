@@ -20,7 +20,7 @@ export default function Title({ input, error, handleChange }: TitleProps) {
           styles.title,
           {
             color: Colors[theme].baseContent,
-            borderColor: error ? Colors[theme].error : Colors[theme].baseContent,
+            borderColor: error ? Colors[theme].error : Colors[theme].base100,
           },
         ]}
         placeholder="Task name"
@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: 'bold',
     paddingVertical: 8,
-    borderBottomWidth: 3,
+    borderBottomWidth: 1,
   },
 });

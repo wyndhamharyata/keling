@@ -16,6 +16,7 @@ import { useDbListener } from '@/hooks/use-db-listener';
 import { scheduleForDate, toStartOfDayTimestamp } from './_components/scheduleMatcher';
 import EventItemView from './_components/eventItemView';
 import DateSwitcher from './_components/dateSwitcher';
+import AlarmToggle from './_components/alarmToggle';
 
 const statusOrder: Record<EventStatus, number> = { todo: 0, snoozed: 1, done: 2, skipped: 3 };
 
@@ -69,10 +70,8 @@ export default function HomeScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={{ flex: 1 }}>
-        {/* <Pressable onPress={() => router.push('/alarm-test')} style={styles.alarmTestLink}> */}
-        {/*   <Text style={{ color: Colors[theme].primary }}>AlarmKit test →</Text> */}
-        {/* </Pressable> */}
+      <SafeAreaView style={{ flex: 1, gap: 8 }}>
+        <AlarmToggle />
         {total > 0 && (
           <ThemedView style={{ gap: 8, marginVertical: 20 }}>
             <View style={{ flexDirection: 'row' }}>
@@ -118,7 +117,7 @@ const styles = StyleSheet.create({
   fabContainer: {
     position: 'absolute',
     bottom: 120,
-    right: 24,
+    right: 20,
   },
   fab: {
     width: 56,

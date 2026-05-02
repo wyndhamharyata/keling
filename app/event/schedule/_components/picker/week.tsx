@@ -71,7 +71,7 @@ export default function PickerWeek({ schedule, onSetSchedule }: PickerMonthProps
             style={{ flex: 1 }}
           >
             <LiquidGlassView
-              tintColor={new Set(selectedDates).has(f) ? Colors[theme].baseContent : Colors[theme].base300}
+              tintColor={new Set(selectedDates).has(f) ? Colors[theme].baseContent : Colors[theme].base100}
               style={{ paddingHorizontal: 10, paddingVertical: 5, borderRadius: 20 }}
               interactive={true}
             >

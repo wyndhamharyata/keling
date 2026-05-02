@@ -45,7 +45,7 @@ export default function Frequency({ pickerType, onSetSchedule, onPickerChange }:
             }}
           >
             <LiquidGlassView
-              tintColor={f.selected ? Colors[theme].baseContent : Colors[theme].base300}
+              tintColor={f.selected ? Colors[theme].baseContent : Colors[theme].base100}
               style={{ paddingHorizontal: 20, paddingVertical: 5, borderRadius: 10 }}
               interactive={true}
             >

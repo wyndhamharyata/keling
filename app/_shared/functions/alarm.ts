@@ -7,18 +7,34 @@ const WINDOW_DAYS = 28;
 const MAX_ALARMS = 60;
 const REFRESH_COOLDOWN_MS = Math.floor((WINDOW_DAYS / 2) * 86_400_000);
 
+// metadata keys
+const IS_ALARM_ENABLED_KEY = 'isAlarmEnabled';
+const LAST_ALARM_REFRESH_AT_KEY = 'lastAlarmRefreshAt';
+
+export function isAlarmEnabled(db: SQLiteDatabase): boolean {
+  const row = db.getFirstSync<{ value: string }>('SELECT value FROM metadata WHERE key = ?', [IS_ALARM_ENABLED_KEY]);
+  return !!row && !!row.value && row.value === '1';
+}
+
+export function setEnableAlarm(db: SQLiteDatabase, enable: boolean) {
+  db.runSync('INSERT INTO metadata (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value', [
+    IS_ALARM_ENABLED_KEY,
+    enable ? '1' : '0',
+  ]);
+}
+
 export function getLastRefreshAt(db: SQLiteDatabase): number {
-  const row = db.getFirstSync<{ value: string }>(
-    "SELECT value FROM metadata WHERE key = 'lastAlarmRefreshAt'",
-  );
+  const row = db.getFirstSync<{ value: string }>('SELECT value FROM metadata WHERE key = ?', [
+    LAST_ALARM_REFRESH_AT_KEY,
+  ]);
   return row ? Number(row.value) : 0;
 }
 
 function setLastRefreshAt(db: SQLiteDatabase, ts: number): void {
-  db.runSync(
-    "INSERT INTO metadata (key, value) VALUES ('lastAlarmRefreshAt', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
-    [String(ts)],
-  );
+  db.runSync('INSERT INTO metadata (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value', [
+    LAST_ALARM_REFRESH_AT_KEY,
+    String(ts),
+  ]);
 }
 
 export function isRefreshCooldownExpired(db: SQLiteDatabase): boolean {

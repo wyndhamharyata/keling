@@ -50,9 +50,6 @@ export default function EventScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('Errors: ', JSON.stringify(errors));
-  console.log('Input', JSON.stringify(input));
-  console.log('Output', JSON.stringify(output));
 
   const handleChange = <K extends keyof EventItem>(field: K, value?: EventItem[K]) => {
     const next = { ...input, [field]: value };
@@ -84,7 +81,6 @@ export default function EventScreen() {
 
   const handleSave = async () => {
     if (!output) {
-      console.log('Output empty / invalid, skipping');
       return;
     }
     const values = [
@@ -127,7 +123,7 @@ export default function EventScreen() {
       >
         <Title input={input} error={errors['title']} handleChange={handleChange} />
         <Pressable onPress={() => router.navigate(`/event/schedule?cron=${input?.schedule}`)}>
-          <TimeTable schedule={input.schedule} />
+          <TimeTable schedule={input.schedule} clickable={true} />
         </Pressable>
         <Subtask input={input} error={undefined} handleChange={handleChange} />
         <Description input={input} handleChange={handleChange} />

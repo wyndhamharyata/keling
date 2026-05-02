@@ -72,7 +72,7 @@ export default function PickerYear({ schedule, onSetSchedule }: PickerYearProps)
             style={{ width: '22%' }}
           >
             <LiquidGlassView
-              tintColor={new Set(selectedMonths).has(m) ? Colors[theme].baseContent : Colors[theme].base300}
+              tintColor={new Set(selectedMonths).has(m) ? Colors[theme].baseContent : Colors[theme].base100}
               style={{ paddingHorizontal: 10, paddingVertical: 5, borderRadius: 20 }}
               interactive={true}
             >

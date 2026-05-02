@@ -89,7 +89,7 @@ export default function Time({ schedule, onSetSchedule }: TimeProps) {
         {timePresets.map((f, index) => (
           <Pressable key={`frequency-index-${index}`} onPress={() => onTimeChange(f)}>
             <LiquidGlassView
-              tintColor={Colors[theme].base300}
+              tintColor={Colors[theme].base100}
               style={{ paddingHorizontal: 10, paddingVertical: 5, borderRadius: 10 }}
               interactive={true}
             >

@@ -82,11 +82,7 @@ async function collectDayAlarms(
   return false;
 }
 
-export async function collectAlarms(
-  db: SQLiteDatabase,
-  windowDays: number,
-  maxAlarms: number,
-): Promise<AlarmEntry[]> {
+export async function collectAlarms(db: SQLiteDatabase, windowDays: number, maxAlarms: number): Promise<AlarmEntry[]> {
   const now = Date.now();
   const alarms: AlarmEntry[] = [];
 

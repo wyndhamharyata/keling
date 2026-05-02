@@ -5,7 +5,7 @@ import { isAvailable, requestAlarmPermission } from 'react-native-nitro-ios-alar
 import PQueue from 'p-queue';
 import debounce from 'lodash.debounce';
 
-import { isRefreshCooldownExpired, refreshAlarms } from '@/functions/alarm';
+import { isAlarmEnabled, isRefreshCooldownExpired, refreshAlarms } from '@/functions/alarm';
 
 const DEBOUNCE_MS = 500;
 const WATCHED_TABLES = new Set(['events', 'actions']);
@@ -19,6 +19,7 @@ export function useAlarmRefresher() {
 
     const enqueueRefresh = () => {
       if (cancelled || queue.size > 0) return;
+      if (!isAlarmEnabled(db)) return;
       queue.add(() => refreshAlarms(db));
     };
 

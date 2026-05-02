@@ -1,8 +1,7 @@
-import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { Button, DeviceEventEmitter, Platform, StyleSheet } from 'react-native';
+import { Button, DeviceEventEmitter, StyleSheet } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import Frequency, { DatePickerType } from './_components/frequency';
@@ -11,7 +10,6 @@ import PickerWeek from './_components/picker/week';
 import PickerMonth from './_components/picker/month';
 import PickerYear from './_components/picker/year';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
-import cronstrue from 'cronstrue';
 import TimeTable from '@/app/_shared/components/time-table';
 
 export const SCHEDULE_SAVE_EVENT = 'event.schedule.save';
