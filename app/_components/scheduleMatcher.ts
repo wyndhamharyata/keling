@@ -35,21 +35,22 @@ function cronFieldPermutations(value: number, min: number, max: number, offset: 
   return perms;
 }
 
-const CRON_CTE = `WITH _s1 AS (
-  SELECT *, INSTR(schedule, ' ') AS p1 FROM events
-), _s2 AS (
-  SELECT *, p1 + INSTR(SUBSTR(schedule, p1 + 1), ' ') AS p2 FROM _s1
-), _s3 AS (
-  SELECT *, p2 + INSTR(SUBSTR(schedule, p2 + 1), ' ') AS p3 FROM _s2
-), _s4 AS (
-  SELECT *, p3 + INSTR(SUBSTR(schedule, p3 + 1), ' ') AS p4 FROM _s3
-), cron AS (
-  SELECT id, title, description, priority, labels, schedule, status, subtasks,
-    SUBSTR(schedule, p2 + 1, p3 - p2 - 1) AS cron_dom,
-    SUBSTR(schedule, p3 + 1, p4 - p3 - 1) AS cron_month,
-    SUBSTR(schedule, p4 + 1) AS cron_dow
-  FROM _s4
-)`;
+// Cron format: "minute hour day-of-month month day-of-week".
+// Each CTE locates the next space and stores its position, so the final
+// CTE can SUBSTR out the day-of-month / month / day-of-week fields.
+const CRON_CTE = `
+WITH 
+  with_min_end AS (SELECT *, INSTR(schedule, ' ') AS min_end FROM events),
+  with_hour_end AS (SELECT *, min_end + INSTR(SUBSTR(schedule, min_end + 1), ' ') AS hour_end FROM with_min_end), 
+  with_dom_end AS (SELECT *, hour_end + INSTR(SUBSTR(schedule, hour_end + 1), ' ') AS dom_end FROM with_hour_end), 
+  with_month_end AS (SELECT *, dom_end + INSTR(SUBSTR(schedule, dom_end + 1), ' ') AS month_end FROM with_dom_end), 
+  cron AS (
+      SELECT id, title, description, priority, labels, schedule, status, subtasks,
+        SUBSTR(schedule, hour_end + 1, dom_end - hour_end - 1) AS cron_dom,
+        SUBSTR(schedule, dom_end + 1, month_end - dom_end - 1) AS cron_month,
+        SUBSTR(schedule, month_end + 1) AS cron_dow
+      FROM with_month_end
+  )`;
 
 // Build an IN clause with ? placeholders and collect params.
 function inClause(field: string, values: string[], params: SqlBindParams): string {
@@ -100,7 +101,25 @@ export function scheduleForDate(date: Date, opts?: ScheduleQueryOpts): ScheduleQ
   const params: SqlBindParams = [dateTs];
   const condition = dateConditionSql(date, params);
 
-  let sql = `${CRON_CTE} SELECT cron.id, cron.title, cron.description, cron.priority, cron.labels, cron.schedule, COALESCE(a.status, cron.status) AS status, CASE WHEN a.id IS NOT NULL AND a.subtasks IS NOT NULL AND a.subtasks != '[]' THEN a.subtasks ELSE cron.subtasks END AS subtasks FROM cron LEFT JOIN actions a ON a.event_id = cron.id AND a.date = ? WHERE ${condition}`;
+  let sql = `
+  ${CRON_CTE} 
+  SELECT 
+    cron.id, 
+    cron.title, 
+    cron.description,
+    cron.priority,
+    cron.labels,
+    cron.schedule,
+    COALESCE(a.status, cron.status) AS status, 
+    CASE 
+      WHEN a.id IS NOT NULL AND a.subtasks IS NOT NULL AND a.subtasks != '[]' 
+      THEN a.subtasks 
+      ELSE cron.subtasks 
+    END AS subtasks 
+    FROM cron 
+    LEFT JOIN actions a ON a.event_id = cron.id 
+    AND a.date = ? 
+    WHERE ${condition}`;
   if (opts?.where) {
     sql += ` AND (${opts.where})`;
     if (opts.whereParams) params.push(...opts.whereParams);
@@ -111,11 +130,7 @@ export function scheduleForDate(date: Date, opts?: ScheduleQueryOpts): ScheduleQ
 }
 
 /** Return a parameterized SQL query for events matching ANY date in [start, end] inclusive. */
-export function scheduleForDateRange(
-  start: Date,
-  end: Date,
-  opts?: ScheduleQueryOpts,
-): ScheduleQuery {
+export function scheduleForDateRange(start: Date, end: Date, opts?: ScheduleQueryOpts): ScheduleQuery {
   const params: SqlBindParams = [];
   const conditions: string[] = [];
 
